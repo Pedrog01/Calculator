@@ -9,6 +9,7 @@ this._dateEl = document.querySelector("#data")
 this._timeEl = document.querySelector("#hora")  
 this._currentDate;
 this.initialize();
+this .initButtonEvents();
 }
 
 
@@ -19,9 +20,25 @@ this.initialize();
 
        this.setDisplayDateTime();
 
-    },1000)
-    
+    },1000); 
 }
+
+
+initButtonEvents(){
+
+
+    let buttons = document.querySelectorAll("#button > g, #partsp> g");
+
+    buttons.forEach((btn,index)=>{
+        this.addEventListenerAll(btn, 'click drag', e =>{
+        console.log(btn.className.baseVal.replace("btn-",""));
+        this.execBtn(textBtn);    
+    });
+        
+    });
+    }
+
+
 setDisplayDateTime()
     {
        this.displayDate = this.currentDate.toLocaleDateString(this._locale,{
@@ -32,6 +49,7 @@ setDisplayDateTime()
         })
         this.displayTime = this.currentDate.toLocaleTimeString(this._locale)
     }
+
 
 get displayTime(){
     return this._timeEl.innerHTML;

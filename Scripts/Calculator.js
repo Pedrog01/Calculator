@@ -1,1 +1,1 @@
-let Calculator = new CalcController();
+window.Calculator = new CalcController();
