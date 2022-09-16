@@ -1,19 +1,21 @@
 class CalcController{
 
 
-constructor(){
+ constructor(){
 
-this._locale ='pt-BR'
-this._displayCalcEl = document.querySelector("#display")  
-this._dateEl = document.querySelector("#data")  
-this._timeEl = document.querySelector("#hora")  
-this._currentDate;
-this.initialize();
-this .initButtonEvents();
-}
+        this._locale = 'pt-BR';
+        this._displayCalcEl = document.querySelector("#display");
+        this._dateEl = document.querySelector("#data");
+        this._timeEl = document.querySelector("#hora");
+        this._currentDate;
+        this.initialize();
+        this.initButtonsEvents();
+
+    }
 
 
  initialize(){
+
  this.setDisplayDateTime();
 
     setInterval(()=>{
@@ -24,20 +26,21 @@ this .initButtonEvents();
 }
 
 
-initButtonEvents(){
+    initButtonsEvents(){
 
+        let buttons = document.querySelectorAll("#buttons > g, #parts > g");
 
-    let buttons = document.querySelectorAll("#button > g, #partsp> g");
+        buttons.forEach((btn, index)=>{
 
-    buttons.forEach((btn,index)=>{
-        this.addEventListenerAll(btn, 'click drag', e =>{
-        console.log(btn.className.baseVal.replace("btn-",""));
-        this.execBtn(textBtn);    
-    });
-        
-    });
+            btn.addEventListener('click', e => {
+
+                console.log(btn.className.baseVal.replace("btn-",""));
+
+            })
+
+        })
+
     }
-
 
 setDisplayDateTime()
     {
@@ -80,9 +83,8 @@ get currentDate(){
 
 set currentDate(valor){
      this._currentDate =valor;
-}
-
     }
+}
 
 
 
