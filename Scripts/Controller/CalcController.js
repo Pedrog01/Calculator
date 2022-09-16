@@ -1,7 +1,6 @@
-class CalcController{
+class CalcController {
 
-
- constructor(){
+    constructor(){
 
         this._operation = [];
         this._locale = 'pt-BR';
@@ -13,7 +12,6 @@ class CalcController{
         this.initButtonsEvents();
 
     }
-
 
  initialize(){
 
@@ -120,9 +118,10 @@ execBtn(valor){
 
             this.addEventListenerAll(btn,"click drag", e => {
 
-                this.textBtn = btn.className.baseVal.replace("btn-","");
+                let textBtn = btn.className.baseVal.replace("btn-","");
                    
                 this.execBtn(textBtn);
+                
 
             });
 
