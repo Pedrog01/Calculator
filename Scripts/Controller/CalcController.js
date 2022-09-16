@@ -3,6 +3,7 @@ class CalcController{
 
  constructor(){
 
+        this._operation = [];
         this._locale = 'pt-BR';
         this._displayCalcEl = document.querySelector("#display");
         this._dateEl = document.querySelector("#data");
@@ -31,10 +32,85 @@ class CalcController{
 
             element.addEventListener(event, fn, false);
 
-        });
+        });  
 
     }
 
+    clearAll(){
+
+        this._operation = []
+
+    }
+
+    clearEntry(){
+        this._operation.pop();
+    }
+
+    addOperation(valor){
+
+        this._operation.push(valor);
+        console.log(this._operation)
+
+    }
+
+    setError(){
+
+        this.displayCalc = "Error";
+
+    }
+
+execBtn(valor){
+    
+    switch(valor) {
+        case 'ac':
+            this.clearAll();
+        break;
+        case 'ce':
+            this.clearEntry();
+        break;
+
+        case 'soma':
+
+            break;
+        case 'subtracao':
+
+            break;
+        case 'divisao':
+
+            break;
+        case 'multiplicacao':
+
+            break;
+        case 'porcento':
+
+             break;
+        case 'igual':
+
+            default:
+
+            this.setError();
+                break;
+
+
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        
+        this.addOperation (parseInt(valor));
+
+        break;
+
+    }
+
+            
+        }
 
     initButtonsEvents(){
 
@@ -44,13 +120,15 @@ class CalcController{
 
             this.addEventListenerAll(btn,"click drag", e => {
 
-                console.log(btn.className.baseVal.replace("btn-",""));
+                this.textBtn = btn.className.baseVal.replace("btn-","");
+                   
+                this.execBtn(textBtn);
 
             });
 
             this.addEventListenerAll(btn,"mouseover mouseup mousedowm",e =>{
 
-                btn.style.cursor = "pointer"; 
+                btn.style.cursor = "pointer";   
 
             });
 
