@@ -36,7 +36,7 @@ class CalcController {
 
     clearAll(){
 
-        this._operation = []
+        this._operation = [];
 
     }
 
@@ -46,13 +46,13 @@ class CalcController {
 
     getLastOperantion(){
 
-       return this._operation[this._operation.length-1]
+        return this._operation[this._operation.length-1];
 
     }   
 
     setLastOperation(valor){
 
-        this._operation[this._operation.length-1] = valor
+        this._operation[this._operation.length-1] = valor;
 
     }
 
@@ -65,14 +65,14 @@ class CalcController {
     addOperation(valor){
 
         if (isNaN(this.getLastOperantion())){
-
+            
             if(this.isOperator(valor)){
 
                 this.setLastOperation(valor);
 
             }else if(isNaN(valor)){
 
-                console.log(valor)
+                console.log(valor);
 
             }else {
 
@@ -82,8 +82,8 @@ class CalcController {
 
         }else {
 
-            let newValor = this.getLastOperantion.toString() + valor.toString();
-            this.setLastOperation(newValor);
+            let newValor = this.getLastOperantion().toString() + valor.toString();
+            this.setLastOperation(parseInt(newValor));
         }
 
         console.log(this._operation);
@@ -122,13 +122,11 @@ execBtn(valor){
             this.addOperation ('%');
              break;
         case 'igual':
-            
+            break;
         case 'ponto':
             this.addOperation ('.');
             break;
-
-            default:
-
+        default:
             this.setError();
                 break;
 
