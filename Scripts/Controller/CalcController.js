@@ -1,6 +1,8 @@
 class CalcController {
 
     constructor(){
+        this.lastOperator = ''
+        this.lastNumber = ''
 
         this._operation = [];
         this._locale = 'pt-BR';
@@ -39,13 +41,17 @@ class CalcController {
     clearAll(){
 
         this._operation = [];
-        this.setLastNumberToDisplay()
+        this._lastNumber = ''
+        this._lastOperator = ''
+
+        this.setLastNumberToDisplay();
 
     }
 
     clearEntry(){
         this._operation.pop();
-        this.setLastNumberToDisplay()
+
+        this.setLastNumberToDisplay();
     }
 
     getLastOperantion(){
@@ -67,69 +73,105 @@ class CalcController {
     }
 
 
-    pushOperator(valor){
+    pushOperation(valor){
 
         this._operation.push(valor);
 
         if(this._operation.length > 3){
 
-            console.log(this._operation)
-
             this.calc();
+
         }
+    }
+
+    getResult(){
+
+        return eval(this._operation.join(""));
+
     }
 
     calc(){
 
-        let last = ''
+        let last = '';
+        
+        this._lastOperator = this.getLastItem();
 
-        if (this._operation.length > 3) {
+        if (this._operation.length < 3) {
 
-            let last = this._operation.pop();
+            let firstItem = this._operation[0];
+
+            this._operation = [firstItem, this._lastOperator, this._lastNumber];
 
         }
 
-        let result = eval(this._operation.join(""));
+        if (this._operation.length > 3) {
 
-        if(last == '%'){
+            last = this._operation.pop();
+
+            this._lastNumber = this.getResult();
+
+        } else if (this._operation.length == 3) {
+
+            this._lastNumber = this.getLastItem(false);
+
+        }
+        
+        let result = this.getResult();
+
+        if (last == '%') {
 
             result /= 100;
-            this._operation = [result];
-
-        }else{
 
             this._operation = [result];
 
-            if(last) this._operation.push(last);
-        
+        } else {
+
+            this._operation = [result];
+
+            if (last) this._operation.push(last);
+
         }
 
         this.setLastNumberToDisplay();
 
     }
 
+    getLastItem(isOperator = true){
 
-    setLastNumberToDisplay(){
+        let lastItem;
 
-        let lastNumber;
-        
-        for (let i = this._operation.length-1; i >= 0; i-- ){
+        for (let i = this._operation.length-1; i >= 0; i--){
 
-            if (!this.isOperator(this._operation[i])){
-
-                lastNumber = this._operation[i];
-
+            if (this.isOperator(this._operation[i]) == isOperator) {
+    
+                lastItem = this._operation[i];
+    
                 break;
-                
+    
             }
 
         }
 
-        if(!lastNumber) lastNumber = 0;
+        if (!lastItem) {
+
+            lastItem = (isOperator) ? this._lastOperator : this._lastNumber;
+
+        }
+
+        return lastItem;
+
+    }
+
+    setLastNumberToDisplay(){
+
+        let lastNumber = this.getLastItem(false);
+
+        if (!lastNumber) lastNumber = 0;
 
         this.displayCalc = lastNumber;
 
     }
+
 
     addOperation(valor){
 
@@ -143,9 +185,9 @@ class CalcController {
 
                 console.log("outra coisa",valor);
 
-            }else {
+            } else {
                 
-                this.pushOperator(valor);
+                this.pushOperation(valor);
 
                 this.setLastNumberToDisplay();
             
@@ -155,7 +197,7 @@ class CalcController {
 
             if(this.isOperator(valor)){
 
-                this.pushOperator(valor);   
+                this.pushOperation(valor);   
 
             }else{
                 
@@ -177,61 +219,67 @@ class CalcController {
 
     }
 
-execBtn(valor){
-    
-    switch(valor) {
-        case 'ac':
-            this.clearAll();
-        break;
-        case 'ce':
-            this.clearEntry();
-        break;
+    execBtn(valor){
 
-        case 'soma':
-            this.addOperation ('+');
-            break;
-        case 'subtracao':
-            this.addOperation ('-');
-            break;
-        case 'divisao':
-            this.addOperation ('/');
-            break;
-        case 'multiplicacao':
-            this.addOperation ('*');
-            break;
-        case 'porcento':
-            this.addOperation ('%');
-             break;
-        case 'igual':
-            this.calc()
-            break;
-        case 'ponto':
-            this.addOperation ('.');
-            break;
+        switch (valor) {
 
-
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-        
-        this.addOperation (parseInt(valor));
-        break;
-
-        default:
-            this.setError();
+            case 'ac':
+                this.clearAll();
                 break;
+
+            case 'ce':
+                this.clearEntry();
+                break;
+
+            case 'soma':
+                this.addOperation('+');
+                break;
+
+            case 'subtracao':
+                this.addOperation('-');
+                break;
+
+            case 'divisao':
+                this.addOperation('/');
+                break;
+
+            case 'multiplicacao':
+                this.addOperation('*');
+                break;
+
+            case 'porcento':
+                this.addOperation('%');
+                break;
+
+            case 'igual':
+                this.calc();
+                break;
+
+            case 'ponto':
+                this.addOperation('.');
+                break;
+
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                this.addOperation(parseInt(valor));
+                break;
+
+            default:
+                this.setError();
+                break;
+
+        }
 
     }
 
-            
-        }
 
     initButtonsEvents(){
 
