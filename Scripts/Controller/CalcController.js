@@ -179,22 +179,22 @@ initKeyBoard(){
 
     }   
 
-    setLastOperation(valor){
+    setLastOperation(value){
 
-        this._operation[this._operation.length-1] = valor;
-
-    }
-
-    isOperator(valor){
-
-        return(['+','-','*','%','/'].indexOf(valor) > -1);
+        this._operation[this._operation.length-1] = value;
 
     }
 
+    isOperator(value){
 
-    pushOperation(valor){
+        return(['+','-','*','%','/'].indexOf(value) > -1);
 
-        this._operation.push(valor);
+    }
+
+
+    pushOperation(value){
+
+        this._operation.push(value);
 
         if(this._operation.length > 3){
 
@@ -292,21 +292,21 @@ initKeyBoard(){
     }
 
 
-    addOperation(valor){
+    addOperation(value){
 
         if (isNaN(this.getLastOperantion())){
             
-            if(this.isOperator(valor)){
+            if(this.isOperator(value)){
 
-                this.setLastOperation(valor);
+                this.setLastOperation(value);
 
-            }else if(isNaN(valor)){
+            }else if(isNaN(value)){
 
-                console.log("outra coisa",valor);
+                console.log("outra coisa",value);
 
             } else {
                 
-                this.pushOperation(valor);
+                this.pushOperation(value);
 
                 this.setLastNumberToDisplay();
             
@@ -314,15 +314,15 @@ initKeyBoard(){
 
         }else {
 
-            if(this.isOperator(valor)){
+            if(this.isOperator(value)){
 
-                this.pushOperation(valor);   
+                this.pushOperation(value);   
 
             }else{
                 
-                let newValor = this.getLastOperantion().toString() + valor.toString();
+                let newvalue = this.getLastOperantion().toString() + value.toString();
 
-                this.setLastOperation(newValor);
+                this.setLastOperation(newvalue);
 
                 this.setLastNumberToDisplay();
 
@@ -356,11 +356,11 @@ initKeyBoard(){
     }
 
 
-    execBtn(valor){
+    execBtn(value){
 
         this.playAudio();
 
-        switch (valor) {
+        switch (value) {
 
             case 'ac':
                 this.clearAll();
@@ -408,7 +408,7 @@ initKeyBoard(){
             case '7':
             case '8':
             case '9':
-                this.addOperation(parseInt(valor));
+                this.addOperation(parseInt(value));
                 break;
 
             default:
@@ -461,32 +461,38 @@ setDisplayDateTime()
 get displayTime(){
     return this._timeEl.innerHTML;
 }
-set displayTime(valor){
-    return this._timeEl.innerHTML =valor;
+set displayTime(value){
+    return this._timeEl.innerHTML =value;
 }
 
 get displayDate(){
     return this._dateEl.innerHTML;
 }
 
-set displayDate(valor){
-    return this._dateEl.innerHTML =valor;  
+set displayDate(value){
+    return this._dateEl.innerHTML =value;  
 }
 
 get displayCalc(){
 return this._displayCalcEl.innerHTML;
 
 }
-set displayCalc(valor){
-    this._displayCalcEl.innerHTML =valor;
+set displayCalc(value){
+
+    if(value.toString().length > 10){
+        this.setError();
+        return false;
+    } 
+
+    this._displayCalcEl.innerHTML =value;
 }
 
 get currentDate(){
     return new Date();
 }
 
-set currentDate(valor){
-     this._currentDate =valor;
+set currentDate(value){
+     this._currentDate =value;
     }
 }
 
